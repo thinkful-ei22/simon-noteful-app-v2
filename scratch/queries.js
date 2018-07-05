@@ -2,67 +2,67 @@
 
 const knex = require('../knex');
 
-let searchTerm = 'some';
+// let searchTerm = 'some';
 
-knex
-  .select('notes.id', 'title', 'content')
-  .from('notes')
-  .modify(queryBuilder => {
-    if (searchTerm) {
-      queryBuilder.where('title', 'like', `%${searchTerm}%`);
-    }
-  })
-  .orderBy('notes.id')
-  .then(results => {
-    console.log(JSON.stringify(results, null, 2));
-  })
-  .catch(err => {
-    console.error(err);
-  });
+// knex
+//   .select('notes.id', 'title', 'content')
+//   .from('notes')
+//   .modify(queryBuilder => {
+//     if (searchTerm) {
+//       queryBuilder.where('title', 'ilike', `%${searchTerm}%`);
+//     }
+//   })
+//   .orderBy('notes.id')
+//   .then(results => {
+//     console.log(JSON.stringify(results, null, 2));
+//   })
+//   .catch(err => {
+//     console.error(err);
+//   });
 
-// search by id
+// // search by id
 
-let searchId = '1007';
+let searchId = '1010';
 
-knex('notes')
-  .first('id', 'title', 'content')
-  .where('id', `${searchId}`)
-  .then(results => {
-    console.log(results);
-  })
-  .catch(err => {
-    console.error(err);
-  });
+// knex('notes')
+//   .first('id', 'title', 'content')
+//   .where('id', `${searchId}`)
+//   .then(results => {
+//     console.log(results);
+//   })
+//   .catch(err => {
+//     console.error(err);
+//   });
 
-// update
+// // update
 
-let updateObject = {title: 'THIS IS A BIG BOI EDIT', content: 'YOU HEARD ME'};
+// let updateObject = {title: 'THIS IS A BIG BOI EDIT', content: 'YOU HEARD ME'};
 
-knex('notes')
-  .where('id', `${searchId}`)
-  .update(updateObject)
-  .then(results => {
-    console.log(results);
-  })
-  .catch(err => {
-    console.error(err);
-  });
+// knex('notes')
+//   .where('id', `${searchId}`)
+//   .update(updateObject)
+//   .then(results => {
+//     console.log(results);
+//   })
+//   .catch(err => {
+//     console.error(err);
+//   });
 
 // create
 
-let updateObject = {title: 'someTitle', content: 'someContent'};
+// let newObject = {title: 'someTitle', content: 'someContent'};
 
-knex('notes')
-  .insert(updateObject)
-  .returning(['id', 'title', 'content'])
-  .then(results => {
-    console.log(results[0]);
-  })
-  .catch(err => {
-    console.error(err);
-  });
+// knex('notes')
+//   .insert(newObject)
+//   .returning(['id', 'title', 'content'])
+//   .then(results => {
+//     console.log(results[0]);
+//   })
+//   .catch(err => {
+//     console.error(err);
+//   });
 
-//delete
+delete
 
 knex('notes')
   .where('id', `${searchId}`) 
