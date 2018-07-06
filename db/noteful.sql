@@ -1,4 +1,6 @@
-DROP TABLE IF EXISTS folders;
+-- folders
+
+-- DROP TABLE IF EXISTS folders;
 
 CREATE TABLE folders (
     id serial PRIMARY KEY,
@@ -13,7 +15,9 @@ INSERT INTO folders (name) VALUES
   ('Personal'),
   ('Work');
 
-DROP TABLE IF EXISTS notes;
+-- notes
+
+-- DROP TABLE IF EXISTS notes;
 
 CREATE TABLE notes (
   id serial PRIMARY KEY,
@@ -51,3 +55,38 @@ INSERT INTO notes (title, content, folder_id) VALUES
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor...',
     102
   );
+
+-- tags
+
+-- DROP TABLE IF EXISTS tags;
+
+CREATE TABLE tags (
+  id serial PRIMARY KEY,
+  name text NOT NULL
+);
+
+ALTER SEQUENCE tags_id_seq RESTART WITH 1;
+
+INSERT INTO tags (name) VALUES
+  ('Tag 1'),
+  ('Tag 2'),
+  ('Tag 3');
+
+-- notes_tags
+
+-- DROP TABLE IF EXISTS notes_tags;
+
+CREATE TABLE notes_tags (
+  note_id INTEGER NOT NULL REFERENCES notes ON DELETE CASCADE,
+  tag_id INTEGER NOT NULL REFERENCES tags ON DELETE CASCADE
+);
+
+INSERT INTO notes_tags (note_id, tag_id) VALUES
+  (1000, 1),
+  (1000, 2),
+  (1000, 3),
+  (1001, 3),
+  (1001, 1),
+  (1002, 2),
+  (1003, 1),
+  (1004, 1);
