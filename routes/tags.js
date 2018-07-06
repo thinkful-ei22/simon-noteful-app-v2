@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 const knex = require('../knex');
 
-router.get('/tags', (req, res, next) => {
+router.get('/', (req, res, next) => {
   knex.select('id', 'name')
     .from('tags')
     .then(results => {
@@ -13,7 +13,7 @@ router.get('/tags', (req, res, next) => {
     .catch(err => next(err));
 });
 
-router.get('/tags/:id', (req, res, next) => {
+router.get('/:id', (req, res, next) => {
   const id = req.params.id;
   knex('tags')
     .first('id', 'name')
@@ -24,7 +24,7 @@ router.get('/tags/:id', (req, res, next) => {
     .catch(err => next(err));
 });
 
-router.put('/tags/:id', (req, res, next) => {
+router.put('/:id', (req, res, next) => {
   const id = req.params.id;
   const updateObj = {};
   const updateableFields = ['name'];
@@ -49,7 +49,7 @@ router.put('/tags/:id', (req, res, next) => {
     });
 });
 
-router.post('/tags', (req, res, next) => {
+router.post('/', (req, res, next) => {
   const {name} = req.body;
   if (!name) {
     const err = new Error('Missing `name` in request body');
@@ -68,7 +68,7 @@ router.post('/tags', (req, res, next) => {
     .catch(err => next(err));
 });
 
-router.delete('/tags/:id', (req, res, next) => {
+router.delete('/:id', (req, res, next) => {
   const id = req.params.id;
   knex('tags')
     .where('id', `${id}`)
