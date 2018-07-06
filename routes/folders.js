@@ -33,14 +33,14 @@ router.put('/:id', (req, res, next) => {
       updateObj[field] = req.body[field];
     }
   });
-  if (!updateObj.title) {
+  if (!updateObj.name) {
     const err = new Error('Missing `name` in request body');
     err.status = 400;
     return next(err);
   }
   knex('folders')
     .where('id', `${id}`)
-    .update(`${updateObj.name}`)
+    .update(updateObj)
     .then(results => {
       res.json(results);
     })
