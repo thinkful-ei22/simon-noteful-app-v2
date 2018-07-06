@@ -34,7 +34,7 @@ router.get('/', (req, res, next) => {
     })
     .modify(function (queryBuilder) {
       if (tagId) {
-        queryBuilder.where('tag_id', folderId);
+        queryBuilder.where('tag_id', tagId);
       }
     })
     .orderBy('notes.id')
@@ -53,16 +53,22 @@ router.get('/', (req, res, next) => {
 router.get('/:id', (req, res, next) => {
   const id = req.params.id;
 
-  knex('notes')
-    .first('notes.id', 'title', 'content', 'folders.id as folderId', 'folders.name as folderName')
-    .where('notes.id', `${id}`)
+  knex
+    .select('notes.id', 'title', 'content', 'folders.id as folderId', 'folders.name as folderName', 'tags.id as tagId', 'tags.name as tagName')
+    .from('notes')
     .leftJoin('folders', 'notes.folder_id', 'folders.id')
-    .then(result => {
-      res.json(result);
+    .leftJoin('notes_tags', 'notes.id', 'notes_tags.note_id')
+    .leftJoin('tags', 'tags.id', 'notes_tags.tag_id')
+    .where('notes.id', id)
+    .then(results => {
+      if (results) {
+        const hydrated = hydrateNotes(results);
+        res.json(hydrated);
+      } else {
+        next();
+      }
     })
-    .catch(err => {
-      next(err);
-    });
+    .catch(err => next(err));
 });
 
 // Put update an item
