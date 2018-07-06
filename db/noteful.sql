@@ -65,8 +65,6 @@ CREATE TABLE tags (
   name text NOT NULL
 );
 
-ALTER SEQUENCE tags_id_seq RESTART WITH 1;
-
 INSERT INTO tags (name) VALUES
   ('Tag 1'),
   ('Tag 2'),
